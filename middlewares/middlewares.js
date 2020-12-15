@@ -270,18 +270,18 @@ exports.refreshBanksFromCentralBank = async() => {
                 .reply(200,
                     [
                         {
-                            "name": "T1",
-                            "owners": "Rich",
+                            "name": "B1",
+                            "owners": "Paul",
                             "jwksUrl": "https://testbank.com/jwks",
                             "transactionUrl": "https://testbank.com/transactions/b2b",
-                            "bankPrefix": "uio"
+                            "bankPrefix": "ypu"
                         },
                         {
-                            "name": "T2",
-                            "owners": "Bob",
+                            "name": "B2",
+                            "owners": "Trel",
                             "jwksUrl": "https://testbank.com/jwks",
                             "transactionUrl": "https://testbank.com/transactions/b2b",
-                            "bankPrefix": "ytr"
+                            "bankPrefix": "ets"
                         }
                     ]
                 )

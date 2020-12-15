@@ -149,6 +149,21 @@ exports.processTransactions = async() => {
 
         // Send request to remote bank
         try {
+             const nock = require('nock')
+            let nockScope
+
+            if (process.env.TEST_MODE === 'true') {
+
+                const nockUrl = new URL(bankTo.transactionUrl)
+
+                console.log('Nocking '+ JSON.stringify(nockUrl));
+
+                nockScope = nock(`${nockUrl.protocol}//${nockUrl.host}`)
+                    .persist()
+                    .post(nockUrl.pathname)
+                    .reply(200, {receiverName: 'testing'})
+
+            }
 
             console.log('loop: Making request to ' + bankTo.transactionUrl);
 
@@ -243,6 +258,34 @@ exports.processTransactions = async() => {
 exports.refreshBanksFromCentralBank = async() => {
 
     try {
+        let nockScope, nock
+
+        // Mocking Central Bank
+        if (process.env.TEST_MODE === 'true') {
+            nock = require('nock')
+            console.log(process.env.TEST_MODE === 'true');
+            nockScope = nock(process.env.CENTRAL_BANK_URL)
+                .persist()
+                .get('/banks')
+                .reply(200,
+                    [
+                        {
+                            "name": "T1",
+                            "owners": "Rich",
+                            "jwksUrl": "https://testbank.com/jwks",
+                            "transactionUrl": "https://testbank.com/transactions/b2b",
+                            "bankPrefix": "uio"
+                        },
+                        {
+                            "name": "T2",
+                            "owners": "Bob",
+                            "jwksUrl": "https://testbank.com/jwks",
+                            "transactionUrl": "https://testbank.com/transactions/b2b",
+                            "bankPrefix": "ytr"
+                        }
+                    ]
+                )
+        }
         console.log('Refreshing banks');
 
         console.log('Attempting to contact central bank at ' + `${process.env.CENTRAL_BANK_URL}/banks`)

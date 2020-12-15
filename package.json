@@ -11,6 +11,7 @@
     "dependencies": {
       "abort-controller": "^3.0.0",
       "bcrypt": "^5.0.0",
+      "nock": "^13.0.5",
       "dotenv": "^8.2.0",
       "exchange-rates-api": "^1.0.2",
       "express": "^4.17.1",
